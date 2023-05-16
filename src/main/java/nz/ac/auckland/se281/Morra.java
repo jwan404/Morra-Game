@@ -1,7 +1,6 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
-
 import nz.ac.auckland.se281.Main.Difficulty;
 
 public class Morra {
@@ -20,11 +19,10 @@ public class Morra {
   public void play() {
     MessageCli.START_ROUND.printMessage(Integer.toString(roundCount + 1));
     MessageCli.ASK_INPUT.printMessage();
-   
+
     boolean inputValid = false;
 
-    while (!inputValid)
-    {
+    while (!inputValid) {
       String input = Utils.scanner.nextLine();
       String fingerString = input.split(" ")[0]; // finger
       int finger = Integer.parseInt(fingerString);
@@ -46,8 +44,6 @@ public class Morra {
         MessageCli.ASK_INPUT.printMessage();
       }
     }
-      
-    
   }
 
   public void showStats() {}
