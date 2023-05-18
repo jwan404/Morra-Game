@@ -10,12 +10,18 @@ public class RandomStrategy implements Strategy {
   As a result, the Random strategy will choose a sum randomly between fingers + 1 and fingers + 5 (inclusive). */
 
   @Override
-  public int getFingers() {
-    return Utils.getRandomNumber(1, 5);
+  public String getFingers() {
+    int fingers = Utils.getRandomNumber(1, 5);
+    System.out.println(fingers);
+    String fingerString = Integer.toString(fingers);
+    return fingerString;
   }
 
   @Override
-  public int getSum() {
-    return Utils.getRandomNumber(getFingers() + 1, getFingers() + 5);
+  public String getSum(int fingerInt) {
+    System.out.println(fingerInt);
+    int sum = Utils.getRandomNumber(fingerInt + 1, fingerInt + 5);
+    String sumString = Integer.toString(sum);
+    return sumString;
   }
 }
