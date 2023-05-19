@@ -2,7 +2,7 @@ package nz.ac.auckland.se281;
 
 public interface Strategy {
 
-  public String getFingers();
+  public String getFingersStrat();
 
-  public String getSum(int fingerInt);
+  public String getSumStrat(int fingerInt);
 }
