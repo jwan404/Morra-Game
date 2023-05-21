@@ -4,13 +4,14 @@ public class TopStrategy implements Strategy {
 
   @Override
   public String getFingersStrat() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getFingersStrat'");
+    int fingers = Utils.getRandomNumber(1, 5);
+    String fingerString = Integer.toString(fingers);
+    return fingerString;
   }
 
   @Override
-  public String getSumStrat(int fingerInt) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getSumStrat'");
+  public String getSumStrat(int fingerInt, int average) {
+    int sumInt = fingerInt + average;
+    return Integer.toString(sumInt);
   }
 }

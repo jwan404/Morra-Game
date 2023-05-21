@@ -4,5 +4,5 @@ public interface Strategy {
 
   public String getFingersStrat();
 
-  public String getSumStrat(int fingerInt);
+  public String getSumStrat(int fingerInt, int average);
 }

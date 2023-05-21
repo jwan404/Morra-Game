@@ -37,33 +37,59 @@ public class Morra {
       }
 
       if ((finger >= 1 && finger <= 5) && (sumInt >= 1 && sumInt <= 10)) {
+        roundCount++;
+        int currentFinger = finger;
         this.cumulativeHumanFingers += finger; // add finger cumulativeHumanFingers
-        float average = this.cumulativeHumanFingers / roundCount; // gets average of human fingers
-        int averageInt = Math.round(average); // rounds average to nearest integer
+        float average =
+            (this.cumulativeHumanFingers - currentFinger)
+                / (roundCount - 1); // gets average of human fingers
+        int averageInt = Math.round(average); // rounds average to nearest integer\
+        fingerString = Integer.toString(finger);
+        MessageCli.PRINT_INFO_HAND.printMessage(playerName, fingerString, sum);
+        strategy = new RandomStrategy();
         String aiFingers = strategy.getFingersStrat();
         int aiFingersInt = Integer.parseInt(aiFingers);
         if (roundCount > 3) {
+          System.out.println(this.cumulativeHumanFingers);
+          System.out.println(roundCount - 1);
+          System.out.println("Average: " + averageInt);
+          System.out.println(average);
+
           if (this.difficulty == Difficulty.MEDIUM) {
             AverageStrategy strategy = new AverageStrategy();
-            sum = strategy.getSumStrat(aiFingersInt, averageInt);
+            String aiSum = strategy.getSumStrat(aiFingersInt, averageInt);
+            int aiSumInt = Integer.parseInt(aiSum);
+            MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
+            if (finger + aiFingersInt == sumInt) {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+            } else if (finger + aiFingersInt == aiSumInt) {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+            } else {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+            }
+          } /*  else if (this.difficulty == Difficulty.HARD) {
+              TopStrategy strategy = new TopStrategy();
+            } else if (this.difficulty == Difficulty.MASTER) {
+              AverageStrategy strategy = new AverageStrategy();
+              TopStrategy strategy2 = new TopStrategy();
+            }*/
+        } else {
+          RandomStrategy strategy = new RandomStrategy();
+          String aiSum = strategy.getSumStrat(Integer.parseInt(aiFingers), averageInt);
+          int aiSumInt = Integer.parseInt(aiSum);
+          MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
+          if (finger + aiFingersInt == sumInt) {
+            MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+          } else if (finger + aiFingersInt == aiSumInt) {
+            MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+          } else {
+            MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
           }
         }
-        fingerString = Integer.toString(finger);
-        roundCount++;
+
         // Prints out the player's name, fingers and sum
-        MessageCli.PRINT_INFO_HAND.printMessage(playerName, fingerString, sum);
         // Prints out the AI's fingers and sum
-        String aiSum = strategy.getSumStrat(Integer.parseInt(aiFingers), averageInt);
-        MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
-        int aiSumInt = Integer.parseInt(aiSum);
         // Prints results of the round
-        if (finger + aiFingersInt == sumInt) {
-          MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
-        } else if (finger + aiFingersInt == aiSumInt) {
-          MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
-        } else {
-          MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
-        }
 
         inputValid = true;
       } else {

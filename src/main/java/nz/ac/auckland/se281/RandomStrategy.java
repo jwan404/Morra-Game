@@ -17,8 +17,7 @@ public class RandomStrategy implements Strategy {
   }
 
   @Override
-  public String getSumStrat(int fingerInt) {
-    System.out.println(fingerInt);
+  public String getSumStrat(int fingerInt, int average) {
     int sum = Utils.getRandomNumber(fingerInt + 1, fingerInt + 5);
     String sumString = Integer.toString(sum);
     return sumString;
