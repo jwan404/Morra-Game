@@ -11,13 +11,17 @@ public class Morra {
   private Difficulty difficulty;
   private int roundCount = 0;
   private Strategy strategy;
+  private int pointsToWin;
 
   public Morra() {}
 
   public void newGame(Difficulty difficulty, int pointsToWin, String[] options) {
+    fingerHuman.clear();
+    roundCount = 0;
     MessageCli.WELCOME_PLAYER.printMessage(options[0]);
     playerName = options[0];
     this.difficulty = difficulty;
+    this.pointsToWin = pointsToWin;
   }
 
   int count1 = 0;
@@ -26,8 +30,15 @@ public class Morra {
   int count4 = 0;
   int count5 = 0;
   int mostCommon = 0;
+  int humanWin = 0;
+  int aiWin = 0;
 
   public void play() {
+    if (playerName == null) {
+      MessageCli.GAME_NOT_STARTED.printMessage();
+      return;
+    }
+
     MessageCli.START_ROUND.printMessage(Integer.toString(roundCount + 1));
     MessageCli.ASK_INPUT.printMessage();
 
@@ -118,8 +129,10 @@ public class Morra {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
             } else if (finger + aiFingersInt == sumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+              humanWin++;
             } else if (finger + aiFingersInt == aiSumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+              aiWin++;
             } else {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
             }
@@ -132,8 +145,10 @@ public class Morra {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
             } else if (finger + aiFingersInt == sumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+              humanWin++;
             } else if (finger + aiFingersInt == aiSumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+              aiWin++;
             } else {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
             }
@@ -148,8 +163,10 @@ public class Morra {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
               } else if (finger + aiFingersInt == sumInt) {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+                humanWin++;
               } else if (finger + aiFingersInt == aiSumInt) {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+                aiWin++;
               } else {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
               }
@@ -165,8 +182,10 @@ public class Morra {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
               } else if (finger + aiFingersInt == sumInt) {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+                humanWin++;
               } else if (finger + aiFingersInt == aiSumInt) {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+                aiWin++;
               } else {
                 MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
               }
@@ -181,8 +200,10 @@ public class Morra {
             MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
           } else if (finger + aiFingersInt == sumInt) {
             MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+            humanWin++;
           } else if (finger + aiFingersInt == aiSumInt) {
             MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+            aiWin++;
           } else {
             MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
           }
@@ -193,8 +214,28 @@ public class Morra {
         MessageCli.INVALID_INPUT.printMessage();
         MessageCli.ASK_INPUT.printMessage();
       }
+      if (humanWin == pointsToWin) {
+        MessageCli.END_GAME.printMessage(playerName, Integer.toString(roundCount));
+        playerName = null;
+        return;
+      } else if (aiWin == pointsToWin) {
+        MessageCli.END_GAME.printMessage("Jarvis", Integer.toString(roundCount));
+        playerName = null;
+        return;
+      }
     }
   }
 
-  public void showStats() {}
+  public void showStats() {
+    if (playerName == null) {
+      MessageCli.GAME_NOT_STARTED.printMessage();
+      return;
+    }
+    int roundsLeftHuman = pointsToWin - humanWin;
+    int roundsLeftAi = pointsToWin - aiWin;
+    MessageCli.PRINT_PLAYER_WINS.printMessage(
+        playerName, Integer.toString(humanWin), Integer.toString(roundsLeftHuman));
+    MessageCli.PRINT_PLAYER_WINS.printMessage(
+        "Jarvis", Integer.toString(aiWin), Integer.toString(roundsLeftAi));
+  }
 }
