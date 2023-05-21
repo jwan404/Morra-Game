@@ -10,8 +10,8 @@ public class TopStrategy implements Strategy {
   }
 
   @Override
-  public String getSumStrat(int fingerInt, int average) {
-    int sumInt = fingerInt + average;
+  public String getSumStrat(int fingerInt, int average, int mostCommon) {
+    int sumInt = fingerInt + mostCommon;
     return Integer.toString(sumInt);
   }
 }

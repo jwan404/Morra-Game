@@ -9,7 +9,8 @@ public class AverageStrategy implements Strategy {
   }
 
   @Override
-  public String getSumStrat(int fingerInt, int average) { // fingerInt is from getFingersStrat.
+  public String getSumStrat(
+      int fingerInt, int average, int mostCommon) { // fingerInt is from getFingersStrat.
     int sumInt = fingerInt + average;
     return Integer.toString(sumInt);
   }
