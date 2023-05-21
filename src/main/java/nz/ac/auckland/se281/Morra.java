@@ -1,13 +1,12 @@
 package nz.ac.auckland.se281;
 
-import java.util.ArrayList;
 import nz.ac.auckland.se281.Main.Difficulty;
 
 public class Morra {
 
-  private ArrayList<Finger> fingerCount = new ArrayList<Finger>();
-  private ArrayList<Player> players = new ArrayList<Player>();
-
+  private float cumulativeHumanFingers = 0;
+  private String playerName;
+  private Difficulty difficulty;
   private int roundCount = 0;
   private Strategy strategy;
 
@@ -15,21 +14,8 @@ public class Morra {
 
   public void newGame(Difficulty difficulty, int pointsToWin, String[] options) {
     MessageCli.WELCOME_PLAYER.printMessage(options[0]);
-    players.add(new Player(options[0]));
-
-    if (difficulty == Difficulty.EASY) {
-      strategy = new RandomStrategy();
-    } else if (difficulty == Difficulty.MEDIUM) {
-      strategy = new RandomStrategy();
-      strategy = new AverageStrategy();
-    }
-    /*  else if (difficulty == Difficulty.HARD) {
-      strategy = new RandomStrategy();
-    }
-    else if (difficulty == Difficulty.MASTER) {
-      strategy = new RandomStrategy();
-    }*/
-
+    playerName = options[0];
+    this.difficulty = difficulty;
   }
 
   public void play() {
@@ -51,17 +37,24 @@ public class Morra {
       }
 
       if ((finger >= 1 && finger <= 5) && (sumInt >= 1 && sumInt <= 10)) {
-        fingerString = Integer.toString(finger);
-        fingerCount.add(new Finger(finger)); // add finger to arraylist
-        roundCount++;
-
-        // Prints out the player's name, fingers and sum
-        MessageCli.PRINT_INFO_HAND.printMessage(players.get(0).getPlayerName(), fingerString, sum);
-        // Prints out the AI's fingers and sum
+        this.cumulativeHumanFingers += finger; // add finger cumulativeHumanFingers
+        float average = this.cumulativeHumanFingers / roundCount; // gets average of human fingers
+        int averageInt = Math.round(average); // rounds average to nearest integer
         String aiFingers = strategy.getFingersStrat();
-        String aiSum = strategy.getSumStrat(Integer.parseInt(aiFingers));
-        MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
         int aiFingersInt = Integer.parseInt(aiFingers);
+        if (roundCount > 3) {
+          if (this.difficulty == Difficulty.MEDIUM) {
+            AverageStrategy strategy = new AverageStrategy();
+            sum = strategy.getSumStrat(aiFingersInt, averageInt);
+          }
+        }
+        fingerString = Integer.toString(finger);
+        roundCount++;
+        // Prints out the player's name, fingers and sum
+        MessageCli.PRINT_INFO_HAND.printMessage(playerName, fingerString, sum);
+        // Prints out the AI's fingers and sum
+        String aiSum = strategy.getSumStrat(Integer.parseInt(aiFingers), averageInt);
+        MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
         int aiSumInt = Integer.parseInt(aiSum);
         // Prints results of the round
         if (finger + aiFingersInt == sumInt) {

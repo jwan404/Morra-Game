@@ -1,12 +1,8 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+
 public class AverageStrategy implements Strategy {
-
-  private int roundCount;
-
-  public AverageStrategy() {
-    roundCount = 0;
-  }
 
   @Override
   public String getFingersStrat() {
@@ -16,7 +12,17 @@ public class AverageStrategy implements Strategy {
 
   @Override
   public String getSumStrat(int fingerInt) { // fingerInt is from getFingersStrat.
-    int sumInt = fingerInt;
+    int sumInt = fingerInt /* + average of human fingers */;
     return Integer.toString(sumInt);
+  }
+
+  public int getAverage(ArrayList<Finger> humanFingers) {
+    double sum = 0;
+    for (Finger finger : humanFingers) {
+      sum += finger.getFinger();
+    }
+    double average = sum / humanFingers.size();
+    Math.round(average);
+    return (int) average;
   }
 }

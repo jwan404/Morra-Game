@@ -5,8 +5,7 @@ public class Medium extends AI {
   // after 3 rounds: average
   private int roundCount;
 
-  public Medium(Strategy strategy) {
-    super(strategy);
+  public Medium() {
     roundCount = 0;
   }
 
