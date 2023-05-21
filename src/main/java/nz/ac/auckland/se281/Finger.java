@@ -9,12 +9,16 @@ public class Finger implements FingerInterface {
     this.sumInt = sumInt;
   }
 
+  public Finger(int finger, int sumInt) {
+    this.finger = finger;
+  }
+
   public int getSumInt() {
     return sumInt;
   }
 
-  public Finger(int finger, int sumInt) {
-    this.finger = finger;
+  public int getFinger() {
+    return finger;
   }
 
   @Override
@@ -23,9 +27,5 @@ public class Finger implements FingerInterface {
       fingerSum += finger;
     }
     return fingerSum;
-  }
-
-  public int getFinger() {
-    return finger;
   }
 }

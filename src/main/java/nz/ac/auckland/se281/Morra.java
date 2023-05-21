@@ -12,6 +12,14 @@ public class Morra {
   private int roundCount = 0;
   private Strategy strategy;
   private int pointsToWin;
+  private int count1 = 0;
+  private int count2 = 0;
+  private int count3 = 0;
+  private int count4 = 0;
+  private int count5 = 0;
+  private int mostCommon = 0;
+  private int humanWin = 0;
+  private int aiWin = 0;
 
   public Morra() {}
 
@@ -24,16 +32,7 @@ public class Morra {
     this.pointsToWin = pointsToWin;
   }
 
-  int count1 = 0;
-  int count2 = 0;
-  int count3 = 0;
-  int count4 = 0;
-  int count5 = 0;
-  int mostCommon = 0;
-  int humanWin = 0;
-  int aiWin = 0;
-
-  public void play() {
+  public void play() { // plays the game
     if (playerName == null) {
       MessageCli.GAME_NOT_STARTED.printMessage();
       return;
@@ -226,7 +225,7 @@ public class Morra {
     }
   }
 
-  public void showStats() {
+  public void showStats() { // prints out the stats
     if (playerName == null) {
       MessageCli.GAME_NOT_STARTED.printMessage();
       return;
