@@ -109,13 +109,14 @@ public class Morra {
           } else if (count5 == maxnumber) {
             mostCommon = 5;
           }
-          System.out.println(mostCommon);
           if (this.difficulty == Difficulty.MEDIUM) {
             AverageStrategy strategy = new AverageStrategy();
             String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
             int aiSumInt = Integer.parseInt(aiSum);
             MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
-            if (finger + aiFingersInt == sumInt) {
+            if ((finger + aiFingersInt == sumInt) && (finger + aiFingersInt == aiSumInt)) {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+            } else if (finger + aiFingersInt == sumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
             } else if (finger + aiFingersInt == aiSumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
@@ -127,23 +128,58 @@ public class Morra {
             String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
             int aiSumInt = Integer.parseInt(aiSum);
             MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
-            if (finger + aiFingersInt == sumInt) {
+            if ((finger + aiFingersInt == sumInt) && (finger + aiFingersInt == aiSumInt)) {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+            } else if (finger + aiFingersInt == sumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
             } else if (finger + aiFingersInt == aiSumInt) {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
             } else {
               MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
             }
-          } /* else if (this.difficulty == Difficulty.MASTER) {
+          } else if (this.difficulty == Difficulty.MASTER) {
+            if (roundCount % 2 == 0) {
+              System.out.println(roundCount);
               AverageStrategy strategy = new AverageStrategy();
-              TopStrategy strategy2 = new TopStrategy();
-            }*/
+              String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
+              int aiSumInt = Integer.parseInt(aiSum);
+              MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
+              if ((finger + aiFingersInt == sumInt) && (finger + aiFingersInt == aiSumInt)) {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+              } else if (finger + aiFingersInt == sumInt) {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+              } else if (finger + aiFingersInt == aiSumInt) {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+              } else {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+              }
+            }
+            if (roundCount % 2 != 0) {
+              TopStrategy strategy = new TopStrategy();
+              System.out.println(mostCommon);
+              System.out.println(roundCount);
+              String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
+              int aiSumInt = Integer.parseInt(aiSum);
+              MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
+              if ((finger + aiFingersInt == sumInt) && (finger + aiFingersInt == aiSumInt)) {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+              } else if (finger + aiFingersInt == sumInt) {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+              } else if (finger + aiFingersInt == aiSumInt) {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+              } else {
+                MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+              }
+            }
+          }
         } else {
           RandomStrategy strategy = new RandomStrategy();
           String aiSum = strategy.getSumStrat(Integer.parseInt(aiFingers), averageInt, mostCommon);
           int aiSumInt = Integer.parseInt(aiSum);
           MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
-          if (finger + aiFingersInt == sumInt) {
+          if ((finger + aiFingersInt == sumInt) && (finger + aiFingersInt == aiSumInt)) {
+            MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+          } else if (finger + aiFingersInt == sumInt) {
             MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
           } else if (finger + aiFingersInt == aiSumInt) {
             MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
