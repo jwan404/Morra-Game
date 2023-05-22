@@ -20,10 +20,15 @@ public class Morra {
   private int mostCommon = 0;
   private int humanWin = 0;
   private int aiWin = 0;
+  private int count11 = 0;
+  private int count22 = 0;
+  private int count33 = 0;
+  private int count44 = 0;
+  private int count55 = 0;
 
   public Morra() {}
 
-  public void newGame(Difficulty difficulty, int pointsToWin, String[] options) {
+  public void newGame(Difficulty difficulty, int pointsToWin, String[] options) { // starts new game
     fingerHuman.clear();
     roundCount = 0;
     MessageCli.WELCOME_PLAYER.printMessage(options[0]);
@@ -56,7 +61,7 @@ public class Morra {
       }
       if ((finger >= 1 && finger <= 5) && (sumInt >= 1 && sumInt <= 10)) {
         roundCount++;
-        fingerHuman.add(new Finger(finger));
+        fingerHuman.add(new Finger(finger, sumInt));
         if (finger == 1) {
           count1++;
         }
@@ -86,21 +91,37 @@ public class Morra {
         if (roundCount > 3) {
           int lastFinger = fingerHuman.get(fingerHuman.size() - 1).getFinger();
           if (lastFinger == 1) {
-            count1 = count1 - 1;
+            count11 = count1 - 1;
+            count22 = count2;
+            count33 = count3;
+            count44 = count4;
+            count55 = count5;
+          } else if (lastFinger == 2) {
+            count22 = count2 - 1;
+            count11 = count1;
+            count33 = count3;
+            count44 = count4;
+            count55 = count5;
+          } else if (lastFinger == 3) {
+            count33 = count3 - 1;
+            count11 = count1;
+            count22 = count2;
+            count44 = count4;
+            count55 = count5;
+          } else if (lastFinger == 4) {
+            count44 = count4 - 1;
+            count11 = count1;
+            count22 = count2;
+            count33 = count3;
+            count55 = count5;
+          } else if (lastFinger == 5) {
+            count55 = count5 - 1;
+            count11 = count1;
+            count22 = count2;
+            count33 = count3;
+            count44 = count4;
           }
-          if (lastFinger == 2) {
-            count2 = count2 - 1;
-          }
-          if (lastFinger == 3) {
-            count3 = count3 - 1;
-          }
-          if (lastFinger == 4) {
-            count4 = count4 - 1;
-          }
-          if (lastFinger == 5) {
-            count5 = count5 - 1;
-          }
-          int[] numbers = {count1, count2, count3, count4, count5};
+          int[] numbers = {count11, count22, count33, count44, count55};
 
           int maxnumber = numbers[0];
           for (int i = 1; i < numbers.length; i++) {
@@ -108,18 +129,34 @@ public class Morra {
               maxnumber = numbers[i];
             }
           }
-          if (count1 == maxnumber) {
+          if (count11 == maxnumber) {
             mostCommon = 1;
-          } else if (count2 == maxnumber) {
+          } else if (count22 == maxnumber) {
             mostCommon = 2;
-          } else if (count3 == maxnumber) {
+          } else if (count33 == maxnumber) {
             mostCommon = 3;
-          } else if (count4 == maxnumber) {
+          } else if (count44 == maxnumber) {
             mostCommon = 4;
-          } else if (count5 == maxnumber) {
+          } else if (count55 == maxnumber) {
             mostCommon = 5;
           }
-          if (this.difficulty == Difficulty.MEDIUM) {
+          if (this.difficulty == Difficulty.EASY) {
+            RandomStrategy strategy = new RandomStrategy();
+            String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
+            int aiSumInt = Integer.parseInt(aiSum);
+            MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
+            if ((finger + aiFingersInt == sumInt) && (finger + aiFingersInt == aiSumInt)) {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+            } else if (finger + aiFingersInt == sumInt) {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("HUMAN_WINS");
+              humanWin++;
+            } else if (finger + aiFingersInt == aiSumInt) {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("AI_WINS");
+              aiWin++;
+            } else {
+              MessageCli.PRINT_OUTCOME_ROUND.printMessage("DRAW");
+            }
+          } else if (this.difficulty == Difficulty.MEDIUM) {
             AverageStrategy strategy = new AverageStrategy();
             String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
             int aiSumInt = Integer.parseInt(aiSum);
@@ -153,7 +190,6 @@ public class Morra {
             }
           } else if (this.difficulty == Difficulty.MASTER) {
             if (roundCount % 2 == 0) {
-              System.out.println(roundCount);
               AverageStrategy strategy = new AverageStrategy();
               String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
               int aiSumInt = Integer.parseInt(aiSum);
@@ -172,8 +208,6 @@ public class Morra {
             }
             if (roundCount % 2 != 0) {
               TopStrategy strategy = new TopStrategy();
-              System.out.println(mostCommon);
-              System.out.println(roundCount);
               String aiSum = strategy.getSumStrat(aiFingersInt, averageInt, mostCommon);
               int aiSumInt = Integer.parseInt(aiSum);
               MessageCli.PRINT_INFO_HAND.printMessage("Jarvis", aiFingers, aiSum);
@@ -213,13 +247,17 @@ public class Morra {
         MessageCli.INVALID_INPUT.printMessage();
         MessageCli.ASK_INPUT.printMessage();
       }
-      if (humanWin == pointsToWin) {
+      if (humanWin == this.pointsToWin) {
         MessageCli.END_GAME.printMessage(playerName, Integer.toString(roundCount));
         playerName = null;
+        difficulty = null;
+        humanWin = 0;
         return;
-      } else if (aiWin == pointsToWin) {
+      } else if (aiWin == this.pointsToWin) {
         MessageCli.END_GAME.printMessage("Jarvis", Integer.toString(roundCount));
         playerName = null;
+        difficulty = null;
+        aiWin = 0;
         return;
       }
     }
